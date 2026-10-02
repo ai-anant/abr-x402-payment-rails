@@ -1,0 +1,41 @@
+// ABR x402 payment rails on Cloudflare Workers.
+//   local:   npx wrangler dev                    (testnet; uses .dev.vars for the signing key)
+//   deploy:  npx wrangler deploy                 (replace every REPLACE_ placeholder first)
+// Mainnet: set X402_NETWORK=mainnet, X402_MAINNET_ACK, an HTTPS PUBLIC_BASE_URL and your own
+// payTo. Real USDC moves on mainnet.
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "abr-x402-payment-rails",
+  "main": "index.ts",
+  "compatibility_date": "2026-09-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "preview_urls": false,
+  "observability": { "enabled": true },
+  "durable_objects": { "bindings": [{ "name": "CLAIMS", "class_name": "ClaimObject" }] },
+  "migrations": [{ "tag": "v1-claims", "new_sqlite_classes": ["ClaimObject"] }],
+  "ratelimits": [
+    { "name": "CLAIM_CREATE_LIMITER", "namespace_id": "4021", "simple": { "limit": 20, "period": 60 } },
+    { "name": "CLAIM_POLL_LIMITER", "namespace_id": "4022", "simple": { "limit": 30, "period": 60 } }
+  ],
+  "triggers": { "crons": ["17 3 * * *"] },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "abr-x402-payment-rails",
+      // `npx wrangler d1 create abr-x402-payment-rails` prints this id. Local dev works without it.
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "vars": {
+    "X402_NETWORK": "testnet",
+    // Your own testnet receiver (examples/testnet-wallet.ts can create a throwaway one).
+    "X402_PAY_TO": "REPLACE_WITH_A_CHECKSUM_VALID_ALGORAND_ADDRESS",
+    "X402_PRICE_USD": "0.10",
+    "PUBLIC_BASE_URL": "http://localhost:8787",
+    "MERCHANT_ROOT_DOMAIN": "localhost",
+    "FACILITATOR_URL": "https://facilitator.goplausible.xyz",
+    "FACILITATOR_TIMEOUT_MS": "10000"
+  }
+}

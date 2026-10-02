@@ -1,0 +1,39 @@
+{
+  "name": "abr-x402-payment-rails",
+  "version": "0.1.0",
+  "private": true,
+  "description": "The Algorand x402 payment rails behind Agent Blast Radius (abr.kloudle.dev): GoPlausible facilitator, Bazaar discovery, claims, signed manifest delivery on Cloudflare Workers",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "check": "npm run typecheck && npm test",
+    "typecheck": "tsc --noEmit -p tsconfig.test.json && tsc -p worker/tsconfig.json",
+    "test": "node --import tsx --test test/*.test.ts",
+    "demo": "tsx examples/local-demo.ts",
+    "keygen": "tsx examples/keygen.ts",
+    "dev": "cd worker && wrangler dev --ip 127.0.0.1 --port 8787",
+    "types": "cd worker && wrangler types",
+    "client": "tsx examples/claim-client.ts",
+    "testnet:setup": "tsx examples/testnet-wallet.ts setup",
+    "testnet:receiver": "tsx examples/testnet-wallet.ts receiver",
+    "testnet:pay": "tsx examples/testnet-wallet.ts pay"
+  },
+  "dependencies": {
+    "@x402-avm/extensions": "2.6.1",
+    "@x402/avm": "2.25.0",
+    "@x402/core": "2.25.0",
+    "@x402/hono": "2.25.0",
+    "@x402/paywall": "2.25.0",
+    "hono": "4.13.12"
+  },
+  "devDependencies": {
+    "@types/node": "22.18.1",
+    "@x402/fetch": "2.25.0",
+    "algosdk": "3.8.0",
+    "tsx": "4.23.13",
+    "typescript": "5.9.3",
+    "wrangler": "4.145.0"
+  }
+}

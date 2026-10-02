@@ -1,0 +1,3 @@
+# Copy to worker/.dev.vars for `wrangler dev` (never commit .dev.vars).
+# Generate a key with: npm run keygen
+MANIFEST_SIGNING_KEY=REPLACE_WITH_BASE64_PKCS8_ED25519_KEY
