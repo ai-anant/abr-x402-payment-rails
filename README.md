@@ -196,5 +196,7 @@ HTTPS, or with any facilitator other than GoPlausible.
 
 ## Licence
 
-**Not yet chosen; owner decision pending.** Until a licence is added, no rights are
-granted. Runtime dependencies are mostly Apache-2.0 and MIT (`@x402/*`, `hono`).
+Copyright 2026 the Agent Blast Radius authors. Licensed under the
+[Apache License, Version 2.0](LICENSE). This covers only the code in this repository; the
+ABR scanner and its binaries remain under their own proprietary licence. Dependencies keep
+their own licences (mostly Apache-2.0 and MIT).
